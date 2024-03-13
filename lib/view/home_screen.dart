@@ -17,18 +17,28 @@ class AirportDataScreen extends StatefulWidget {
 class _AirportDataScreenState extends State<AirportDataScreen> {
   late AirportData _airportController;
   bool _isLoading = true;
+  List<Airports> airporstsList = [];
 
   @override
   void initState() {
     super.initState();
-    //_airportController = Provider.of<AirportData>(context, listen: false);
+    _airportController = context.read<AirportData>();
     _fetchData();
   }
 
   Future<void> _fetchData() async {
     try {
-      List<Airport>? data = await WebServices().fetchData();
-      _airportController.setAirportData(data!);
+      var data = await WebServices().fetchData();
+
+      if (data != null) {
+        ApiResModel resModel = ApiResModel.fromJson(data);
+        airporstsList = resModel.airportsList ?? [];
+        print(airporstsList.length);
+      }
+      _airportController.setAirportData(airporstsList);
+      setState(() {
+        _isLoading = false;
+      });
       setState(() {
         _isLoading = false;
       });
@@ -36,6 +46,9 @@ class _AirportDataScreenState extends State<AirportDataScreen> {
       print(error);
     }
   }
+
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +83,7 @@ class _AirportDataScreenState extends State<AirportDataScreen> {
                       const SizedBox(width: 5),
                       OutlinedButton(
                         onPressed: () {
-                          _airportController.sortData(sortType: SortType.ZtoA);
+                          _airportController.sortData(sortType: SortType.AtoZ);
                         },
                         child: const Text(
                           'Sort A to Z',
@@ -79,7 +92,8 @@ class _AirportDataScreenState extends State<AirportDataScreen> {
                       ),
                       OutlinedButton(
                         onPressed: () {
-                          _airportController.sortData(sortType: SortType.AtoZ);
+                          return _airportController.sortData(sortType: SortType.ZtoA);
+                          //return _sortAtoZ();
                         },
                         child: const Text(
                           'Sort Z to A',
@@ -96,18 +110,18 @@ class _AirportDataScreenState extends State<AirportDataScreen> {
                   child: Consumer<AirportData>(
                     builder: (context, airportData, _) {
                       return ListView.separated(
-                        itemCount: airportData.airportData.length,
+                        itemCount: airporstsList.length,
                         separatorBuilder: (context, index) {
                           return const Divider(
                             thickness: 2,
                           );
                         },
                         itemBuilder: (context, index) {
-                          final airport = airportData.airportData[index];
+                          // final airport = airportData.airportData[index];
                           //log(airportData.toString());
                           return ListTile(
                             leading: Text(
-                              airport.source.code,
+                              airporstsList[index].source?.code ?? "",
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -115,7 +129,7 @@ class _AirportDataScreenState extends State<AirportDataScreen> {
                               ),
                             ),
                             title: Text(
-                              '${airport.source.city} - ${airport.source.countryname}',
+                              '${airporstsList[index].source?.city} - ${airporstsList[index].source?.countryname}',
                             ),
                           );
                         },

@@ -129,7 +129,7 @@ class _AirportDataScreenState extends State<AirportDataScreen> {
                               ),
                             ),
                             title: Text(
-                              '${airporstsList[index].source?.city} - ${airporstsList[index].source?.countryname}',
+                              '${airporstsList[index].source?.city} - ${airporstsList[index].source?.countryName}',
                             ),
                           );
                         },

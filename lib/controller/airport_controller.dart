@@ -56,10 +56,10 @@ class AirportData with ChangeNotifier {
   void sortData({required SortType sortType}) {
     if (sortType == SortType.AtoZ) {
       _airportData.sort((a, b) =>
-          (a.source?.countryname ?? '').compareTo(b.source?.countryname ?? ''));
+          (a.source?.countryName ?? '').compareTo(b.source?.countryName ?? ''));
     } else {
         _airportData.sort((a, b) =>
-          (b.source?.countryname ?? '').compareTo(a.source?.countryname ?? ''));
+          (b.source?.countryName ?? '').compareTo(a.source?.countryName ?? ''));
     }
     notifyListeners();
   }

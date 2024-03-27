@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => AirportData(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Airport Data App',
         theme: ThemeData(
           primarySwatch: Colors.deepPurple,

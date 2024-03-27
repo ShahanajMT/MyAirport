@@ -47,6 +47,7 @@ class _AirportDataScreenState extends State<AirportDataScreen> {
     }
   }
 
+  
 
  
 
@@ -74,7 +75,10 @@ class _AirportDataScreenState extends State<AirportDataScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          //_airportController.filterAllAirports();
+                          
+                        },
                         child: const Text(
                           'All Airports',
                           style: TextStyle(color: Colors.black),
